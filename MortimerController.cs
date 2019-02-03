@@ -14,6 +14,9 @@ public class MortimerController : MonoBehaviour
 
     //bool for checking if character can double jump
     public bool dblJump;
+    public bool sprint;
+
+    public Animator animator;
 
     // Start is called before the first frame update
     void Start()
@@ -52,9 +55,33 @@ public class MortimerController : MonoBehaviour
         mortyDirection.y = yStored;
 
         Jump();
+        Sprint();
 
         mortyDirection.y = mortyDirection.y + (Physics.gravity.y * gravity * Time.deltaTime);
         mortyController.Move(mortyDirection * Time.deltaTime);
+
+        Animations();
+    }
+
+    void Sprint()
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            if(sprint == false)
+            {
+                mortySpeed *= 1.5f;
+            }
+            sprint = true;
+            
+        }
+        if (Input.GetButtonUp("Fire1"))
+        {
+            if (sprint == true)
+            {
+                mortySpeed /= 1.5f;
+            }
+            sprint = false;
+        }
     }
 
     void Jump()
@@ -67,6 +94,7 @@ public class MortimerController : MonoBehaviour
             {
                 mortyDirection.y = jumpSpeed;
                 dblJump = true;
+                animator.SetBool("dblJump", dblJump);
             }
         }
         //double jump check
@@ -76,8 +104,17 @@ public class MortimerController : MonoBehaviour
             {
                 mortyDirection.y = jumpSpeed;
                 dblJump = false;
+                animator.SetBool("dblJump", dblJump);
             }
 
         }
+    }
+
+    public void Animations()
+    {
+        animator.SetBool("sprint", sprint);
+        animator.SetBool("isGrounded", mortyController.isGrounded);
+        animator.SetFloat("Speed", (Mathf.Abs(Input.GetAxis("Vertical")) + (Mathf.Abs(Input.GetAxis("Horizontal")))));
+        
     }
 }
