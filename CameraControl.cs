@@ -9,14 +9,30 @@ public class CameraControl : MonoBehaviour
     public Vector3 offset;
     public bool useOffset;
     public float rotationSpeed;
+
+
+    //child object of player to act as pivot point for camera
+    public Transform pivot;
+
+
     // Start is called before the first frame update
     void Start()
     {
+        //make cursor disappear
+        Cursor.lockState = CursorLockMode.Locked;
+
         //checking if user wants camera presets
         if (!useOffset)
         {
             offset = targ.position - transform.position;
         }
+
+        //move pivot to character position
+        pivot.transform.position = targ.transform.position;
+        //make pivot child of player
+        pivot.transform.parent = targ.transform;
+
+        
     }
 
     // Update is called once per frame
@@ -27,17 +43,31 @@ public class CameraControl : MonoBehaviour
         float horiz = Input.GetAxis("ControllerHoriz") * rotationSpeed;
         targ.Rotate(0, horiz, 0);
 
+        //y position of controller and rotate pivot
+
         float vert = Input.GetAxis("ControllerVert") * rotationSpeed;
-        targ.Rotate(vert, 0f, 0f);
+        pivot.Rotate(vert, 0f, 0f);
 
         //change camera based on rotatoin of target and offset
         float yAng = targ.eulerAngles.y;
-        float xAng = targ.eulerAngles.x;
+        float xAng = pivot.eulerAngles.x;
 
         Quaternion rotation = Quaternion.Euler(xAng, yAng, 0f);
         transform.position = targ.position - (rotation * offset);
 
         //transform.position = targ.position - offset;
+
+        SetBounds();
+
         transform.LookAt(targ);
+    }
+
+    //Makes it so camera cannot move above or below a certain value
+    public void SetBounds()
+    {
+        if(transform.position.y < targ.position.y)
+        {
+            transform.position = new Vector3(transform.position.x, targ.position.y - .5f, transform.position.z);
+        }
     }
 }
