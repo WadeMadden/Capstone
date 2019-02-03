@@ -34,11 +34,11 @@ public class MontimerController : MonoBehaviour
         //Character controller works better. Character sticks to the ground
 
         //enables movement
-        mortyDirection = new Vector3(Input.GetAxis("Horizontal") * mortySpeed, 0f, Input.GetAxis("Vertical") * mortySpeed);
+        mortyDirection = new Vector3(Input.GetAxis("Horizontal") * mortySpeed, mortyDirection.y, Input.GetAxis("Vertical") * mortySpeed);
 
         Jump();
 
-        mortyDirection.y = mortyDirection.y + (Physics.gravity.y * gravity);
+        mortyDirection.y = mortyDirection.y + (Physics.gravity.y * gravity * Time.deltaTime);
         mortyController.Move(mortyDirection * Time.deltaTime);
     }
 
