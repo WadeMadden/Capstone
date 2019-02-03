@@ -14,7 +14,11 @@ public class CameraControl : MonoBehaviour
     //child object of player to act as pivot point for camera
     public Transform pivot;
 
+    //camera bounds
+    public float upperCameraBound;
+    public float lowerCameraBound;
 
+    public bool invertCameraY;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,17 +40,20 @@ public class CameraControl : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    //LateUpdate so that character movement is processed before camera moves
+    void LateUpdate()
     {
 
         //x position of controller and rotate target
         float horiz = Input.GetAxis("ControllerHoriz") * rotationSpeed;
-        targ.Rotate(0, horiz, 0);
+        targ.Rotate(0f, horiz, 0f);
 
         //y position of controller and rotate pivot
 
         float vert = Input.GetAxis("ControllerVert") * rotationSpeed;
-        pivot.Rotate(vert, 0f, 0f);
+
+        InvertY(vert);
+        
 
         //change camera based on rotatoin of target and offset
         float yAng = targ.eulerAngles.y;
@@ -57,17 +64,40 @@ public class CameraControl : MonoBehaviour
 
         //transform.position = targ.position - offset;
 
-        SetBounds();
+        SetBounds(yAng);
 
         transform.LookAt(targ);
     }
 
     //Makes it so camera cannot move above or below a certain value
-    public void SetBounds()
+    public void SetBounds(float yAng)
     {
+        if(pivot.rotation.eulerAngles.x > upperCameraBound && pivot.rotation.eulerAngles.x < 180f)
+        {
+            pivot.rotation = Quaternion.Euler(upperCameraBound, yAng, 0f);
+        }
+
+        if (pivot.rotation.eulerAngles.x > 180f && pivot.rotation.eulerAngles.x < 360f + lowerCameraBound)
+        {
+            pivot.rotation = Quaternion.Euler(360f + lowerCameraBound, yAng, 0f);
+        }
+
         if(transform.position.y < targ.position.y)
         {
             transform.position = new Vector3(transform.position.x, targ.position.y - .5f, transform.position.z);
+        }
+    }
+
+    //checks if player wants to invert camera
+    public void InvertY(float vert)
+    {
+        if (invertCameraY)
+        {
+            pivot.Rotate(vert, 0f, 0f);
+        }
+        else
+        {
+            pivot.Rotate(-vert, 0f, 0f);
         }
     }
 }

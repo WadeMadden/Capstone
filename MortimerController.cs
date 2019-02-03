@@ -39,12 +39,17 @@ public class MortimerController : MonoBehaviour
         //this mode of movement does not allow player to move in whichever way the camera is facing. Needs to be changed
         //mortyDirection = new Vector3(Input.GetAxis("Horizontal") * mortySpeed, mortyDirection.y, Input.GetAxis("Vertical") * mortySpeed);
 
+
+        float yStored = mortyDirection.y;
         //enables movement
         //applies whatever direction the character is facing to controls
         mortyDirection = (transform.forward * Input.GetAxis("Vertical")) + (transform.right * Input.GetAxis("Horizontal"));
 
         //normalizing speed
         mortyDirection = mortyDirection.normalized * mortySpeed;
+
+        //fixes jump by using stored y value before normalizing
+        mortyDirection.y = yStored;
 
         Jump();
 
