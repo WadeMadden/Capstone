@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MontimerController : MonoBehaviour
+public class MortimerController : MonoBehaviour
 {
     //public Rigidbody mortyRigBod;
     public float mortySpeed;
@@ -11,6 +11,9 @@ public class MontimerController : MonoBehaviour
     public CharacterController mortyController;
     private Vector3 mortyDirection;
     public float gravity;
+
+    //bool for checking if character can double jump
+    public bool dblJump;
 
     // Start is called before the first frame update
     void Start()
@@ -47,10 +50,22 @@ public class MontimerController : MonoBehaviour
         //jump check
         if (mortyController.isGrounded)
         {
+            mortyDirection.y = 0f;
             if (Input.GetButtonDown("Jump"))
             {
                 mortyDirection.y = jumpSpeed;
+                dblJump = true;
             }
+        }
+        //double jump check
+        if (!mortyController.isGrounded && dblJump)
+        {
+            if (Input.GetButtonDown("Jump"))
+            {
+                mortyDirection.y = jumpSpeed;
+                dblJump = false;
+            }
+
         }
     }
 }
