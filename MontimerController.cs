@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MontimerController : MonoBehaviour
 {
+    public float mortySpeed;
     // Start is called before the first frame update
     void Start()
     {
