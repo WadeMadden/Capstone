@@ -22,6 +22,8 @@ public class MortimerController : MonoBehaviour
     private bool forwards;
     private float angle;
 
+    public bool defend;
+
     public Animator animator;
 
     public Transform pivot;
@@ -71,15 +73,19 @@ public class MortimerController : MonoBehaviour
         mortyDirection.y = mortyDirection.y + (Physics.gravity.y * gravity * Time.deltaTime);
         mortyController.Move(mortyDirection * Time.deltaTime);
 
-        
 
+        
         //move in different directions - camera facing angle
-        if(Input.GetAxis("Horizontal")!=0f || Input.GetAxis("Vertical") != 0f)
+        if ((Input.GetAxis("Horizontal")!=0f || Input.GetAxis("Vertical") != 0f) )
         {
+            
             transform.rotation = Quaternion.Euler(0f, pivot.rotation.eulerAngles.y, 0f);
+            
             Quaternion newRotate = Quaternion.LookRotation(new Vector3(mortyDirection.x, 0f, mortyDirection.z));
             playerModel.transform.rotation = Quaternion.Slerp(playerModel.transform.rotation, newRotate, rotateSpeed * Time.deltaTime);
         }
+
+        
 
         Animations();
     }
@@ -168,6 +174,7 @@ public class MortimerController : MonoBehaviour
 
     public void Animations()
     {
+        animator.SetBool("defend", defend);
         animator.SetFloat("angle", angle);
         animator.SetBool("walkRight", walkRight);
         animator.SetBool("walkLeft", walkLeft);
