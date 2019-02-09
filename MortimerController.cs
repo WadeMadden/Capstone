@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class MortimerController : MonoBehaviour
 {
@@ -13,10 +14,19 @@ public class MortimerController : MonoBehaviour
     public float gravity;
 
     //bool for checking if character can double jump
-    public bool dblJump;
-    public bool sprint;
+    private bool dblJump;
+    private bool sprint;
+    private bool backwards;
+    private bool walkLeft;
+    private bool walkRight;
+    private bool forwards;
+    private float angle;
 
     public Animator animator;
+
+    public Transform pivot;
+    public float rotateSpeed;
+    public GameObject playerModel;
 
     // Start is called before the first frame update
     void Start()
@@ -56,16 +66,27 @@ public class MortimerController : MonoBehaviour
 
         Jump();
         Sprint();
+        CheckMovement();
 
         mortyDirection.y = mortyDirection.y + (Physics.gravity.y * gravity * Time.deltaTime);
         mortyController.Move(mortyDirection * Time.deltaTime);
+
+        
+
+        //move in different directions - camera facing angle
+        if(Input.GetAxis("Horizontal")!=0f || Input.GetAxis("Vertical") != 0f)
+        {
+            transform.rotation = Quaternion.Euler(0f, pivot.rotation.eulerAngles.y, 0f);
+            Quaternion newRotate = Quaternion.LookRotation(new Vector3(mortyDirection.x, 0f, mortyDirection.z));
+            playerModel.transform.rotation = Quaternion.Slerp(playerModel.transform.rotation, newRotate, rotateSpeed * Time.deltaTime);
+        }
 
         Animations();
     }
 
     void Sprint()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && backwards == false && walkRight == false && walkLeft == false)
         {
             if(sprint == false)
             {
@@ -110,8 +131,48 @@ public class MortimerController : MonoBehaviour
         }
     }
 
+    void CheckMovement()
+    {
+        float x = Input.GetAxis("Horizontal");
+        float y = Input.GetAxis("Vertical");
+        angle = Mathf.Atan2(y, x) * Mathf.Rad2Deg;
+        //moving backwards
+        if (angle < -55f && angle > -125f){
+            backwards = true;
+            walkLeft = false;
+            walkRight = false;
+            forwards = false;
+        }
+        else if(angle > -55f && angle < 55f)
+        {
+            walkRight = true;
+            walkLeft = false;
+            forwards = false;
+            backwards = false;
+        }
+        else if ((angle <= 180f && angle > 125f) || (angle>=-180f && angle<-125f) )
+        {
+            walkLeft = true;
+            walkRight = false;
+            forwards = false;
+            backwards = false;
+        }
+        else if (angle > 55f && angle< 125f)
+        {
+            forwards = true;
+            backwards = false;
+            walkLeft = false;
+            walkRight = false;
+        }
+    }
+
     public void Animations()
     {
+        animator.SetFloat("angle", angle);
+        animator.SetBool("walkRight", walkRight);
+        animator.SetBool("walkLeft", walkLeft);
+        animator.SetBool("backwards", backwards);
+        animator.SetBool("forwards", forwards);
         animator.SetBool("sprint", sprint);
         animator.SetBool("isGrounded", mortyController.isGrounded);
         animator.SetFloat("Speed", (Mathf.Abs(Input.GetAxis("Vertical")) + (Mathf.Abs(Input.GetAxis("Horizontal")))));

@@ -33,9 +33,11 @@ public class CameraControl : MonoBehaviour
 
         //move pivot to character position
         pivot.transform.position = targ.transform.position;
-        //make pivot child of player
-        pivot.transform.parent = targ.transform;
+        //Rework this part to make camera move around player
+        //pivot.transform.parent = targ.transform;
 
+        //Don't want as a child here
+        pivot.transform.parent = null;
         
     }
 
@@ -43,10 +45,12 @@ public class CameraControl : MonoBehaviour
     //LateUpdate so that character movement is processed before camera moves
     void LateUpdate()
     {
+        //pivot will move with player
+        pivot.transform.position = targ.transform.position;
 
         //x position of controller and rotate target
         float horiz = Input.GetAxis("ControllerHoriz") * rotationSpeed;
-        targ.Rotate(0f, horiz, 0f);
+        pivot.Rotate(0f, horiz, 0f);
 
         //y position of controller and rotate pivot
 
@@ -56,7 +60,7 @@ public class CameraControl : MonoBehaviour
         
 
         //change camera based on rotatoin of target and offset
-        float yAng = targ.eulerAngles.y;
+        float yAng = pivot.eulerAngles.y;
         float xAng = pivot.eulerAngles.x;
 
         Quaternion rotation = Quaternion.Euler(xAng, yAng, 0f);
