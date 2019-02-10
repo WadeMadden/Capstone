@@ -22,7 +22,7 @@ public class MortimerController : MonoBehaviour
     private bool forwards;
     private float angle;
 
-    public bool defend;
+    private bool defend;
 
     public Animator animator;
 
@@ -68,7 +68,9 @@ public class MortimerController : MonoBehaviour
 
         Jump();
         Sprint();
-        CheckMovement();
+        //May implement check movement in the future but currently is unneeded
+        //CheckMovement();
+        forwards = true;
 
         mortyDirection.y = mortyDirection.y + (Physics.gravity.y * gravity * Time.deltaTime);
         mortyController.Move(mortyDirection * Time.deltaTime);
@@ -92,7 +94,7 @@ public class MortimerController : MonoBehaviour
 
     void Sprint()
     {
-        if (Input.GetButtonDown("Fire1") && backwards == false && walkRight == false && walkLeft == false)
+        if (Input.GetButtonDown("Fire1") && (backwards == false && walkRight == false && walkLeft == false))
         {
             if(sprint == false)
             {
@@ -101,7 +103,7 @@ public class MortimerController : MonoBehaviour
             sprint = true;
             
         }
-        if (Input.GetButtonUp("Fire1"))
+        if (Input.GetButtonUp("Fire1") || (backwards == true || walkRight == true || walkLeft == true))
         {
             if (sprint == true)
             {
@@ -142,34 +144,49 @@ public class MortimerController : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
         angle = Mathf.Atan2(y, x) * Mathf.Rad2Deg;
-        //moving backwards
-        if (angle < -55f && angle > -125f){
+        if (Input.GetButtonUp("Defend") || defend == false)
+        {
+            defend = false;
+            forwards = true;
+            backwards = false;
+            walkLeft = false;
+            walkRight = false;
+
+        }
+        if (Input.GetButtonDown("Defend") && (angle < -55f && angle > -125f))
+        {
+            defend = true;
             backwards = true;
             walkLeft = false;
             walkRight = false;
             forwards = false;
         }
-        else if(angle > -55f && angle < 55f)
+        if (Input.GetButtonDown("Defend") && ((angle > -55f && angle < 55f) || mortySpeed != 0.0f))
         {
+            defend = true;
             walkRight = true;
             walkLeft = false;
             forwards = false;
             backwards = false;
         }
-        else if ((angle <= 180f && angle > 125f) || (angle>=-180f && angle<-125f) )
+        if (Input.GetButtonDown("Defend") && ((angle <= 180f && angle > 125f) || (angle >= -180f && angle < -125f)))
         {
+            defend = true;
             walkLeft = true;
             walkRight = false;
             forwards = false;
             backwards = false;
         }
-        else if (angle > 55f && angle< 125f)
+        if (Input.GetButtonDown("Defend") && ((angle > 55f && angle < 125f) || mortySpeed == 0.0f))
         {
+            defend = true;
             forwards = true;
             backwards = false;
             walkLeft = false;
             walkRight = false;
         }
+        //moving backwards
+        
     }
 
     public void Animations()
