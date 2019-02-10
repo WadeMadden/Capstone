@@ -13,6 +13,13 @@ public class GemBehaviour : MonoBehaviour
     public Vector3 rotateAngle;
     public float rotateSpeed;
 
+    //floating on or off
+    public bool floating;
+    public float hoverSpeed;
+    private bool movingUp;
+    public float hoverRate;
+    private float hoverTimer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +34,26 @@ public class GemBehaviour : MonoBehaviour
             if (rotating)
             {
                 transform.Rotate(rotateAngle * rotateSpeed * Time.deltaTime);
+            }
+        }
+
+        if (floating)
+        {
+            hoverTimer += Time.deltaTime;
+            Vector3 dir = new Vector3(0f, 0f, hoverSpeed);
+            transform.Translate(dir);
+
+            if(movingUp && hoverTimer >= hoverRate)
+            {
+                movingUp = false;
+                hoverTimer = 0;
+                hoverSpeed = -hoverSpeed;
+            }
+            else if(!movingUp && hoverTimer >= hoverRate)
+            {
+                movingUp = true;
+                hoverTimer = 0;
+                hoverSpeed = +hoverSpeed;
             }
         }
     }
