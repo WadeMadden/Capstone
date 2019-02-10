@@ -68,6 +68,7 @@ public class MortimerController : MonoBehaviour
 
         Jump();
         Sprint();
+        
         //May implement check movement in the future but currently is unneeded
         //CheckMovement();
         forwards = true;
@@ -111,6 +112,11 @@ public class MortimerController : MonoBehaviour
             }
             sprint = false;
         }
+    }
+
+    void Roll()
+    {
+
     }
 
     void Jump()
