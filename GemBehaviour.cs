@@ -20,6 +20,16 @@ public class GemBehaviour : MonoBehaviour
     public float hoverRate;
     private float hoverTimer;
 
+    //scaling larger and smaller
+    public Vector3 cycleStart;
+    public Vector3 cycleEnd;
+
+    public bool cycling;
+    private bool scaleUp;
+    public float cyclecSpeed;
+    public float cycleRate;
+    private float cycleTimer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,7 +50,7 @@ public class GemBehaviour : MonoBehaviour
         if (floating)
         {
             hoverTimer += Time.deltaTime;
-            Vector3 dir = new Vector3(0f, 0f, hoverSpeed);
+            Vector3 dir = new Vector3(0.0f, 0.0f, hoverSpeed);
             transform.Translate(dir);
 
             if(movingUp && hoverTimer >= hoverRate)
@@ -54,6 +64,32 @@ public class GemBehaviour : MonoBehaviour
                 movingUp = true;
                 hoverTimer = 0;
                 hoverSpeed = +hoverSpeed;
+            }
+        }
+        if (cycling)
+        {
+            cycleTimer += Time.deltaTime;
+
+            if (scaleUp)
+            {
+                transform.localScale = Vector3.Lerp(transform.localScale, cycleEnd, cyclecSpeed * Time.deltaTime);
+            }
+            else if (!scaleUp)
+            {
+                transform.localScale = Vector3.Lerp(transform.localScale, cycleStart, cyclecSpeed * Time.deltaTime);
+            }
+
+            if(cycleTimer >= cycleRate)
+            {
+                if (scaleUp)
+                {
+                    scaleUp = false;
+                }
+                else if (!scaleUp)
+                {
+                    scaleUp = true;
+                }
+                cycleTimer = 0;
             }
         }
     }
