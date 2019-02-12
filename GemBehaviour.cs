@@ -39,57 +39,60 @@ public class GemBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gemAnimated)
+        if (!PauseMenu.paused)
         {
-            if (rotating)
+            if (gemAnimated)
             {
-                transform.Rotate(rotateAngle * rotateSpeed * Time.deltaTime);
-            }
-        }
-
-        if (floating)
-        {
-            hoverTimer += Time.deltaTime;
-            Vector3 dir = new Vector3(0.0f, 0.0f, hoverSpeed);
-            transform.Translate(dir);
-
-            if(movingUp && hoverTimer >= hoverRate)
-            {
-                movingUp = false;
-                hoverTimer = 0;
-                hoverSpeed = -hoverSpeed;
-            }
-            else if(!movingUp && hoverTimer >= hoverRate)
-            {
-                movingUp = true;
-                hoverTimer = 0;
-                hoverSpeed = +hoverSpeed;
-            }
-        }
-        if (cycling)
-        {
-            cycleTimer += Time.deltaTime;
-
-            if (scaleUp)
-            {
-                transform.localScale = Vector3.Lerp(transform.localScale, cycleEnd, cyclecSpeed * Time.deltaTime);
-            }
-            else if (!scaleUp)
-            {
-                transform.localScale = Vector3.Lerp(transform.localScale, cycleStart, cyclecSpeed * Time.deltaTime);
+                if (rotating)
+                {
+                    transform.Rotate(rotateAngle * rotateSpeed * Time.deltaTime);
+                }
             }
 
-            if(cycleTimer >= cycleRate)
+            if (floating)
             {
+                hoverTimer += Time.deltaTime;
+                Vector3 dir = new Vector3(0.0f, 0.0f, hoverSpeed);
+                transform.Translate(dir);
+
+                if (movingUp && hoverTimer >= hoverRate)
+                {
+                    movingUp = false;
+                    hoverTimer = 0;
+                    hoverSpeed = -hoverSpeed;
+                }
+                else if (!movingUp && hoverTimer >= hoverRate)
+                {
+                    movingUp = true;
+                    hoverTimer = 0;
+                    hoverSpeed = +hoverSpeed;
+                }
+            }
+            if (cycling)
+            {
+                cycleTimer += Time.deltaTime;
+
                 if (scaleUp)
                 {
-                    scaleUp = false;
+                    transform.localScale = Vector3.Lerp(transform.localScale, cycleEnd, cyclecSpeed * Time.deltaTime);
                 }
                 else if (!scaleUp)
                 {
-                    scaleUp = true;
+                    transform.localScale = Vector3.Lerp(transform.localScale, cycleStart, cyclecSpeed * Time.deltaTime);
                 }
-                cycleTimer = 0;
+
+                if (cycleTimer >= cycleRate)
+                {
+                    if (scaleUp)
+                    {
+                        scaleUp = false;
+                    }
+                    else if (!scaleUp)
+                    {
+                        scaleUp = true;
+                    }
+                    cycleTimer = 0;
+                }
             }
         }
     }

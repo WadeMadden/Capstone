@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     private const string V = "";
     public int gemTotal = 0;
     public Text gemText;
+    
 
     // Start is called before the first frame update
     void Start()

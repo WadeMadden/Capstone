@@ -41,56 +41,59 @@ public class MortimerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*Rigid body made character too floaty
-        mortyRigBod.velocity = new Vector3(Input.GetAxis("Horizontal") * mortySpeed, mortyRigBod.velocity.y, Input.GetAxis("Vertical") * mortySpeed);
-        
-        if (Input.GetButtonDown("Jump"))
+        if (!PauseMenu.paused)
         {
-            mortyRigBod.velocity = new Vector3(mortyRigBod.velocity.x, jumpSpeed, mortyRigBod.velocity.z);
-        }*/
+            /*Rigid body made character too floaty
+            mortyRigBod.velocity = new Vector3(Input.GetAxis("Horizontal") * mortySpeed, mortyRigBod.velocity.y, Input.GetAxis("Vertical") * mortySpeed);
 
-        //Character controller works better. Character sticks to the ground
+            if (Input.GetButtonDown("Jump"))
+            {
+                mortyRigBod.velocity = new Vector3(mortyRigBod.velocity.x, jumpSpeed, mortyRigBod.velocity.z);
+            }*/
 
-        //this mode of movement does not allow player to move in whichever way the camera is facing. Needs to be changed
-        //mortyDirection = new Vector3(Input.GetAxis("Horizontal") * mortySpeed, mortyDirection.y, Input.GetAxis("Vertical") * mortySpeed);
+            //Character controller works better. Character sticks to the ground
 
-
-        float yStored = mortyDirection.y;
-        //enables movement
-        //applies whatever direction the character is facing to controls
-        mortyDirection = (transform.forward * Input.GetAxis("Vertical")) + (transform.right * Input.GetAxis("Horizontal"));
-
-        //normalizing speed
-        mortyDirection = mortyDirection.normalized * mortySpeed;
-
-        //fixes jump by using stored y value before normalizing
-        mortyDirection.y = yStored;
-
-        Jump();
-        Sprint();
-        
-        //May implement check movement in the future but currently is unneeded
-        //CheckMovement();
-        forwards = true;
-
-        mortyDirection.y = mortyDirection.y + (Physics.gravity.y * gravity * Time.deltaTime);
-        mortyController.Move(mortyDirection * Time.deltaTime);
+            //this mode of movement does not allow player to move in whichever way the camera is facing. Needs to be changed
+            //mortyDirection = new Vector3(Input.GetAxis("Horizontal") * mortySpeed, mortyDirection.y, Input.GetAxis("Vertical") * mortySpeed);
 
 
-        
-        //move in different directions - camera facing angle
-        if ((Input.GetAxis("Horizontal")!=0f || Input.GetAxis("Vertical") != 0f) )
-        {
-            
-            transform.rotation = Quaternion.Euler(0f, pivot.rotation.eulerAngles.y, 0f);
-            
-            Quaternion newRotate = Quaternion.LookRotation(new Vector3(mortyDirection.x, 0f, mortyDirection.z));
-            playerModel.transform.rotation = Quaternion.Slerp(playerModel.transform.rotation, newRotate, rotateSpeed * Time.deltaTime);
+            float yStored = mortyDirection.y;
+            //enables movement
+            //applies whatever direction the character is facing to controls
+            mortyDirection = (transform.forward * Input.GetAxis("Vertical")) + (transform.right * Input.GetAxis("Horizontal"));
+
+            //normalizing speed
+            mortyDirection = mortyDirection.normalized * mortySpeed;
+
+            //fixes jump by using stored y value before normalizing
+            mortyDirection.y = yStored;
+
+            Jump();
+            Sprint();
+
+            //May implement check movement in the future but currently is unneeded
+            //CheckMovement();
+            forwards = true;
+
+            mortyDirection.y = mortyDirection.y + (Physics.gravity.y * gravity * Time.deltaTime);
+            mortyController.Move(mortyDirection * Time.deltaTime);
+
+
+
+            //move in different directions - camera facing angle
+            if ((Input.GetAxis("Horizontal") != 0f || Input.GetAxis("Vertical") != 0f))
+            {
+
+                transform.rotation = Quaternion.Euler(0f, pivot.rotation.eulerAngles.y, 0f);
+
+                Quaternion newRotate = Quaternion.LookRotation(new Vector3(mortyDirection.x, 0f, mortyDirection.z));
+                playerModel.transform.rotation = Quaternion.Slerp(playerModel.transform.rotation, newRotate, rotateSpeed * Time.deltaTime);
+            }
+
+
+
+            Animations();
         }
-
-        
-
-        Animations();
     }
 
     void Sprint()
