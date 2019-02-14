@@ -24,12 +24,20 @@ public class MortimerController : MonoBehaviour
 
     private bool defend;
 
+    private bool roll;
+
     public Animator animator;
 
     public Transform pivot;
     public float rotateSpeed;
     public GameObject playerModel;
 
+
+    public float knockBackForce;
+    public float knockBackTime;
+    private float knockBackCounter;
+
+    public bool wasHurt;
     // Start is called before the first frame update
     void Start()
     {
@@ -57,23 +65,35 @@ public class MortimerController : MonoBehaviour
             //mortyDirection = new Vector3(Input.GetAxis("Horizontal") * mortySpeed, mortyDirection.y, Input.GetAxis("Vertical") * mortySpeed);
 
 
-            float yStored = mortyDirection.y;
-            //enables movement
-            //applies whatever direction the character is facing to controls
-            mortyDirection = (transform.forward * Input.GetAxis("Vertical")) + (transform.right * Input.GetAxis("Horizontal"));
+            if (knockBackCounter <= 0)
+            {
 
-            //normalizing speed
-            mortyDirection = mortyDirection.normalized * mortySpeed;
+                wasHurt = false;
 
-            //fixes jump by using stored y value before normalizing
-            mortyDirection.y = yStored;
+                float yStored = mortyDirection.y;
+                //enables movement
+                //applies whatever direction the character is facing to controls
+                mortyDirection = (transform.forward * Input.GetAxis("Vertical")) + (transform.right * Input.GetAxis("Horizontal"));
 
-            Jump();
-            Sprint();
+                //normalizing speed
+                mortyDirection = mortyDirection.normalized * mortySpeed;
 
-            //May implement check movement in the future but currently is unneeded
-            //CheckMovement();
-            forwards = true;
+                //fixes jump by using stored y value before normalizing
+                mortyDirection.y = yStored;
+
+                Jump();
+                Sprint();
+                Roll();
+
+                //May implement check movement in the future but currently is unneeded
+                //CheckMovement();
+                forwards = true;
+            }
+            else
+            {
+                wasHurt = true;
+                knockBackCounter -= Time.deltaTime;
+            }
 
             mortyDirection.y = mortyDirection.y + (Physics.gravity.y * gravity * Time.deltaTime);
             mortyController.Move(mortyDirection * Time.deltaTime);
@@ -93,12 +113,13 @@ public class MortimerController : MonoBehaviour
 
 
             Animations();
+
         }
     }
 
     void Sprint()
     {
-        if (Input.GetButtonDown("Fire1") && (backwards == false && walkRight == false && walkLeft == false))
+        if (Input.GetButtonDown("Sprint") && (backwards == false && walkRight == false && walkLeft == false))
         {
             if(sprint == false)
             {
@@ -107,7 +128,7 @@ public class MortimerController : MonoBehaviour
             sprint = true;
             
         }
-        if (Input.GetButtonUp("Fire1") || (backwards == true || walkRight == true || walkLeft == true))
+        if (Input.GetButtonUp("Sprint") || (backwards == true || walkRight == true || walkLeft == true))
         {
             if (sprint == true)
             {
@@ -119,7 +140,20 @@ public class MortimerController : MonoBehaviour
 
     void Roll()
     {
+        if(!roll && Input.GetButtonDown("Roll") && mortyController.isGrounded )
+        {
+            roll = true;
 
+        }        
+        else if(Input.GetButtonUp("Roll") || !mortyController.isGrounded || roll)
+        {
+            if (roll)
+            {
+                roll = false;
+                
+            }
+        }
+        
     }
 
     void Jump()
@@ -198,8 +232,17 @@ public class MortimerController : MonoBehaviour
         
     }
 
+    public void KnockBack(Vector3 direction)
+    {
+        knockBackCounter = knockBackTime;
+        mortyDirection = direction * knockBackForce;
+        mortyDirection.y = knockBackForce;
+    }
+
     public void Animations()
     {
+        animator.SetBool("wasHurt", wasHurt);
+        animator.SetBool("roll", roll);
         animator.SetBool("defend", defend);
         animator.SetFloat("angle", angle);
         animator.SetBool("walkRight", walkRight);
