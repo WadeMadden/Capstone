@@ -91,8 +91,18 @@ public class MortimerController : MonoBehaviour
             }
             else
             {
+                /********************************************
+                 * */
+                
+
                 wasHurt = true;
                 knockBackCounter -= Time.deltaTime;
+                //fixed bug where player would get stuck in sprint mode
+                if (sprint)
+                {
+                    mortySpeed /= 1.5f;
+                    sprint = false;
+                }
             }
 
             mortyDirection.y = mortyDirection.y + (Physics.gravity.y * gravity * Time.deltaTime);
@@ -130,7 +140,7 @@ public class MortimerController : MonoBehaviour
         }
         if (Input.GetButtonUp("Sprint") || (backwards == true || walkRight == true || walkLeft == true))
         {
-            if (sprint == true)
+            if (sprint)
             {
                 mortySpeed /= 1.5f;
             }
