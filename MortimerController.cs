@@ -38,6 +38,11 @@ public class MortimerController : MonoBehaviour
     private float knockBackCounter;
 
     public bool wasHurt;
+
+    private int attack = -1;
+    private bool ignoreJump;
+    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -84,6 +89,8 @@ public class MortimerController : MonoBehaviour
                 Jump();
                 Sprint();
                 Roll();
+                Attack();
+                
 
                 //May implement check movement in the future but currently is unneeded
                 //CheckMovement();
@@ -192,6 +199,21 @@ public class MortimerController : MonoBehaviour
         }
     }
 
+    void Attack()
+    {
+        if (Input.GetButtonDown("Attack"))
+        {
+            System.Random rand = new System.Random();
+            attack = rand.Next(4);
+            ignoreJump = true;
+        }
+        if (Input.GetButtonUp("Attack"))
+        {
+            attack = -1;
+            ignoreJump = false;
+        }
+    }
+
     void CheckMovement()
     {
         float x = Input.GetAxis("Horizontal");
@@ -251,6 +273,8 @@ public class MortimerController : MonoBehaviour
 
     public void Animations()
     {
+        animator.SetInteger("attack", attack);
+        animator.SetBool("ignoreJump", ignoreJump);
         animator.SetBool("wasHurt", wasHurt);
         animator.SetBool("roll", roll);
         animator.SetBool("defend", defend);
