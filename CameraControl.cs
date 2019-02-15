@@ -99,11 +99,11 @@ public class CameraControl : MonoBehaviour
     {
         if (invertCameraY)
         {
-            pivot.Rotate(vert, 0f, 0f);
+            pivot.Rotate(-vert, 0f, 0f);
         }
         else
         {
-            pivot.Rotate(-vert, 0f, 0f);
+            pivot.Rotate(vert, 0f, 0f);
         }
     }
 
@@ -111,11 +111,11 @@ public class CameraControl : MonoBehaviour
     {
         if (invertCameraX)
         {
-            pivot.Rotate(0f, horiz, 0f);
+            pivot.Rotate(0f, -horiz, 0f);
         }
         else
         {
-            pivot.Rotate(0f, -horiz, 0f);
+            pivot.Rotate(0f, horiz, 0f);
         }
     }
 }
