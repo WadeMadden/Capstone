@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+
 
 public class GameManager : MonoBehaviour
 {
-    private const string V = "";
     public int gemTotal = 0;
-    public Text gemText;
+    public TextMeshProUGUI gemText;
     
 
     // Start is called before the first frame update
@@ -25,6 +26,6 @@ public class GameManager : MonoBehaviour
     public void AddGem(int gemToAdd)
     {
         gemTotal += gemToAdd;
-        gemText.text = V + gemTotal;
+        gemText.text = gemTotal.ToString();
     }
 }
