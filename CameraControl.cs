@@ -19,6 +19,7 @@ public class CameraControl : MonoBehaviour
     public float lowerCameraBound;
 
     public bool invertCameraY;
+    public bool invertCameraX;
     // Start is called before the first frame update
     void Start()
     {
@@ -50,12 +51,13 @@ public class CameraControl : MonoBehaviour
 
         //x position of controller and rotate target
         float horiz = Input.GetAxis("ControllerHoriz") * rotationSpeed;
-        pivot.Rotate(0f, horiz, 0f);
+        
 
         //y position of controller and rotate pivot
 
         float vert = Input.GetAxis("ControllerVert") * rotationSpeed;
 
+        InvertX(horiz);
         InvertY(vert);
         
 
@@ -97,11 +99,23 @@ public class CameraControl : MonoBehaviour
     {
         if (invertCameraY)
         {
-            pivot.Rotate(-vert, 0f, 0f);
+            pivot.Rotate(vert, 0f, 0f);
         }
         else
         {
-            pivot.Rotate(vert, 0f, 0f);
+            pivot.Rotate(-vert, 0f, 0f);
+        }
+    }
+
+    public void InvertX(float horiz)
+    {
+        if (invertCameraX)
+        {
+            pivot.Rotate(0f, horiz, 0f);
+        }
+        else
+        {
+            pivot.Rotate(0f, -horiz, 0f);
         }
     }
 }
