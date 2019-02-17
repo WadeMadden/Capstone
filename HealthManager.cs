@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
+
 
 
 public class HealthManager : MonoBehaviour
@@ -24,17 +26,33 @@ public class HealthManager : MonoBehaviour
 
     private float flashCounter;
     public float flashFrames = 0.1f;
+
+    private bool isRespawning;
+    private Vector3 respawnPoint;
+    private Quaternion respawnRotation;
+    public float respawnTimer;
+
+    public GameObject deathEffect;
+
+    public Image blackScreen;
+    private bool isFadeToBlack;
+    private bool isFadeFromBlack;
+    public float fadeSpeed;
+    public float waitForFade;
     // Start is called before the first frame update
     void Start()
     {
         health = maximumHealth;
         healthUI.text = health.ToString();
-        morty = FindObjectOfType<MortimerController>();
+        //morty = FindObjectOfType<MortimerController>();
+        respawnPoint = morty.transform.position;
+        respawnRotation = morty.transform.rotation;
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         //countdown for invincibility
         if (invincibilityCounter > 0)
         {
@@ -52,35 +70,120 @@ public class HealthManager : MonoBehaviour
 
             if(invincibilityCounter <= 0)
             {
+                
                 bodyRenderer.enabled = true;
                 clothesRenderer.enabled = true;
                 shieldRenderer.enabled = true;
                 weaponRenderer.enabled = true;
             }
         }
+
+        if (isFadeToBlack)
+        {
+            blackScreen.color = new Color(blackScreen.color.r, blackScreen.color.g, blackScreen.color.b, Mathf.MoveTowards(blackScreen.color.a, 1f, fadeSpeed * Time.deltaTime));
+            if (blackScreen.color.a == 1f)
+            {
+                isFadeToBlack = false;
+            }
+        }
+
+        if (isFadeFromBlack)
+        {
+            blackScreen.color = new Color(blackScreen.color.r, blackScreen.color.g, blackScreen.color.b, Mathf.MoveTowards(blackScreen.color.a, 0f, fadeSpeed * Time.deltaTime));
+            if (blackScreen.color.a == 0f)
+            {
+                isFadeFromBlack = false;
+            }
+        }
     }
 
     public void HurtPlayer(int damage, Vector3 direction)
     {
+        
         if (invincibilityCounter <= 0)
         {
             health -= damage;
-            healthUI.text = health.ToString();
+            if (health <= 0)
+            {
+                healthUI.text = health.ToString();
+                
+                Respawn();
+
+            }
+            else
+            {
+
+                healthUI.text = health.ToString();
+                
+
+                morty.KnockBack(direction);
+                invincibilityCounter = invincibilityFrames;
 
 
-            morty.KnockBack(direction);
-            invincibilityCounter = invincibilityFrames;
+                //turns off mesh when player is hit
+                bodyRenderer.enabled = false;
+                clothesRenderer.enabled = false;
+                shieldRenderer.enabled = false;
+                weaponRenderer.enabled = false;
 
-
-            //turns off mesh when player is hit
-            bodyRenderer.enabled = false;
-            clothesRenderer.enabled = false;
-            shieldRenderer.enabled = false;
-            weaponRenderer.enabled = false;
-
-            flashCounter = flashFrames;
+                flashCounter = flashFrames;
+            }
         }
         
+    }
+
+    public void Respawn()
+    {
+        
+        healthUI.text = health.ToString();
+        if (!isRespawning)
+        {
+            StartCoroutine("RespawnCo");
+        }
+    }
+
+    public IEnumerator RespawnCo()
+    {
+        isRespawning = true;
+
+        morty.gameObject.SetActive(false);
+
+        Instantiate(deathEffect, morty.transform.position, morty.transform.rotation);
+        if (morty.sprint)
+        {
+            morty.sprint = false;
+            morty.mortySpeed /= 1.5f;
+        }
+
+
+        yield return new WaitForSeconds(respawnTimer);
+
+        isFadeToBlack = true;
+
+        yield return new WaitForSeconds(waitForFade);
+
+        isFadeToBlack = false;
+
+        isFadeFromBlack = true;
+
+        isRespawning = false;
+
+        morty.gameObject.SetActive(true);
+        morty.transform.position = respawnPoint;
+        morty.transform.rotation = respawnRotation;
+        health = maximumHealth;
+        healthUI.text = health.ToString();
+
+        invincibilityCounter = invincibilityFrames;
+
+
+        //turns off mesh when player is hit
+        bodyRenderer.enabled = false;
+        clothesRenderer.enabled = false;
+        shieldRenderer.enabled = false;
+        weaponRenderer.enabled = false;
+
+        flashCounter = flashFrames;
     }
 
     public void HealPlayer(int healAmount)

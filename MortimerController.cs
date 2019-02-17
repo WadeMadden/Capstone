@@ -15,7 +15,7 @@ public class MortimerController : MonoBehaviour
 
     //bool for checking if character can double jump
     private bool dblJump;
-    private bool sprint;
+    public bool sprint;
     private bool backwards;
     private bool walkLeft;
     private bool walkRight;
