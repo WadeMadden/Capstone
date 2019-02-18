@@ -39,6 +39,7 @@ public class HealthManager : MonoBehaviour
     private bool isFadeFromBlack;
     public float fadeSpeed;
     public float waitForFade;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -194,5 +195,10 @@ public class HealthManager : MonoBehaviour
         {
             health = maximumHealth;
         }
+    }
+
+    public void SetSpawnPoint(Vector3 newPosition)
+    {
+        respawnPoint = newPosition;
     }
 }
