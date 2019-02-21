@@ -25,6 +25,7 @@ public class CameraControl : MonoBehaviour
     {
         //make cursor disappear
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
         //checking if user wants camera presets
         if (!useOffset)
@@ -50,12 +51,12 @@ public class CameraControl : MonoBehaviour
         pivot.transform.position = targ.transform.position;
 
         //x position of controller and rotate target
-        float horiz = Input.GetAxis("ControllerHoriz") * rotationSpeed;
-        
+        float horiz = Input.GetAxis("ControllerHoriz") * rotationSpeed * Time.deltaTime;
+
 
         //y position of controller and rotate pivot
 
-        float vert = Input.GetAxis("ControllerVert") * rotationSpeed;
+        float vert = Input.GetAxis("ControllerVert") * rotationSpeed * Time.deltaTime;
 
         InvertX(horiz);
         InvertY(vert);
