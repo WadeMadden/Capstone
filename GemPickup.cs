@@ -6,6 +6,7 @@ public class GemPickup : MonoBehaviour
 {
     public int gemVal;
     public GameObject pickupEffect;
+    public Light halo;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +26,7 @@ public class GemPickup : MonoBehaviour
             FindObjectOfType<GameManager>().AddGem(gemVal);
             Instantiate(pickupEffect, transform.position, transform.rotation);
             Destroy(gameObject);
+            Destroy(halo);
         }
     }
 }
