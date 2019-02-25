@@ -1,0 +1,23 @@
+The Myth of Mortimer
+
+This repo contains the following files
+
+CameraControl.cs	- Is responsible for controlling the game camera
+
+CheckPoint.cs	    - Provides checkpoint functionality
+
+DestroyOverTime.cs	- Destroys particle effects after triggered
+
+GameManager.cs	    - Keeps track of Gem count
+
+GemBehaviour.cs	    - Animation for gems - Is also used for moving platforms
+
+GemPickup.cs	      - Is responsible for instantiating gem pickups
+
+HealthManager.cs	    - Manages player health
+
+HurtMort.cs	    - Used by all objects that are assigned to hurt the player
+
+MortimerController.cs	- Contains all functionality for Mortimer. Sets up animations and conditionals
+
+PauseMenu.cs        - Controls pause menu
