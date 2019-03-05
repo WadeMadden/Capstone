@@ -189,11 +189,16 @@ public class HealthManager : MonoBehaviour
 
     public void HealPlayer(int healAmount)
     {
-        health += healAmount;
-
-        if (health > maximumHealth)
+       
+        if (health >= maximumHealth)
         {
+            healthUI.text = health.ToString();
             health = maximumHealth;
+        }
+        else
+        {
+            health += healAmount;
+            healthUI.text = health.ToString();
         }
     }
 
