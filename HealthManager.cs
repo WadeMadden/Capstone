@@ -202,6 +202,12 @@ public class HealthManager : MonoBehaviour
         }
     }
 
+    public void killPlayer()
+    {
+        Vector3 def = new Vector3();
+        HurtPlayer(health, def);
+    }
+
     public void SetSpawnPoint(Vector3 newPosition)
     {
         respawnPoint = newPosition;

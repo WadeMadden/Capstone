@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+
 
 public class PauseMenu : MonoBehaviour
 {
@@ -8,9 +10,12 @@ public class PauseMenu : MonoBehaviour
 
     public GameObject pauseMenuUI;
 
+    public TextMeshProUGUI pauseText;
+
     // Update is called once per frame
     void Update()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         if (paused)
         {
             if (Input.GetButtonDown("Back"))
@@ -49,11 +54,22 @@ public class PauseMenu : MonoBehaviour
 
     public void LoadMenu()
     {
-        Debug.Log("Load");
+        Debug.Log("Menu");
+    }
+
+    public void LoadFile()
+    {
+        Debug.Log("Load File");
+    }
+
+    public void SaveFile()
+    {
+        Debug.Log("Save");
     }
 
     public void QuitGame()
     {
         Debug.Log("Quit");
+        Application.Quit();
     }
 }
