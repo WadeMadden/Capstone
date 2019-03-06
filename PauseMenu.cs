@@ -59,12 +59,25 @@ public class PauseMenu : MonoBehaviour
 
     public void LoadFile()
     {
+
         Debug.Log("Load File");
+        PlayerData data = SaveSystem.LoadPlayer();
+        FindObjectOfType<GameManager>().SetGems(data.gems);
+        FindObjectOfType<HealthManager>().SetHealth(data.health);
+
+        Vector3 pos;
+        pos.x = data.position[0];
+        pos.y = data.position[1];
+        pos.z = data.position[2];
+
+        FindObjectOfType<MortimerController>().SetMorty(pos);
     }
 
     public void SaveFile()
     {
         Debug.Log("Save");
+        SaveSystem.SavePlayer(FindObjectOfType<MortimerController>().GetMorty(), FindObjectOfType<HealthManager>().GetHealth(), FindObjectOfType<GameManager>().GetGems());
+        
     }
 
     public void QuitGame()

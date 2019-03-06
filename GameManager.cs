@@ -7,7 +7,7 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    public int gemTotal = 0;
+    public static int gemTotal = 0;
     public TextMeshProUGUI gemText;
     
 
@@ -21,6 +21,17 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public int GetGems()
+    {
+        return gemTotal;
+    }
+
+    public void SetGems(int gems)
+    {
+        gemTotal = gems;
+        gemText.text = gemTotal.ToString();
     }
 
     public void AddGem(int gemToAdd)

@@ -10,7 +10,7 @@ public class MortimerController : MonoBehaviour
     public float jumpSpeed;
 
     public CharacterController mortyController;
-    private Vector3 mortyDirection;
+    private static Vector3 mortyDirection;
     public float gravity;
 
     //bool for checking if character can double jump
@@ -134,6 +134,16 @@ public class MortimerController : MonoBehaviour
         }
     }
 
+
+    public Vector3 GetMorty()
+    {
+        return mortyDirection;
+    }
+
+    public void SetMorty(Vector3 position)
+    {
+        mortyDirection = position;
+    }
     void Sprint()
     {
         if (Input.GetButtonDown("Sprint") && (backwards == false && walkRight == false && walkLeft == false))

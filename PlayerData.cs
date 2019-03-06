@@ -9,13 +9,13 @@ public class PlayerData
     public int gems;
     public float[] position;
 
-    public PlayerData (MortimerController player, HealthManager mortHealth, GameManager gameMan)
+    public PlayerData (Vector3 player, int mortHealth, int gemsTotal)
     {
-        health = mortHealth.health;
-        gems = gameMan.gemTotal;
+        health = mortHealth;
+        gems = gemsTotal;
         position = new float[3];
-        position[0] = player.transform.position.x;
-        position[1] = player.transform.position.y;
-        position[2] = player.transform.position.z;
+        position[0] = player.x;
+        position[1] = player.y;
+        position[2] = player.z;
     }
 }

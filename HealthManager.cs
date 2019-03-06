@@ -186,7 +186,15 @@ public class HealthManager : MonoBehaviour
 
         flashCounter = flashFrames;
     }
+    public int GetHealth()
+    {
+        return health;
+    }
 
+    public void SetHealth(int healthTotal)
+    {
+        health = healthTotal;
+    }
     public void HealPlayer(int healAmount)
     {
        
