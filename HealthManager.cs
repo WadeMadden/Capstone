@@ -186,6 +186,18 @@ public class HealthManager : MonoBehaviour
 
         flashCounter = flashFrames;
     }
+
+    public Vector3 GetRespawn()
+    {
+        return respawnPoint;
+    }
+
+    public void SetRespawn(Vector3 resp)
+    {
+        respawnPoint = resp;
+        Respawn();
+    }
+
     public int GetHealth()
     {
         return health;
@@ -194,6 +206,7 @@ public class HealthManager : MonoBehaviour
     public void SetHealth(int healthTotal)
     {
         health = healthTotal;
+        healthUI.text = health.ToString();
     }
     public void HealPlayer(int healAmount)
     {

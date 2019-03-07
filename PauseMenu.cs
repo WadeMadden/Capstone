@@ -70,13 +70,13 @@ public class PauseMenu : MonoBehaviour
         pos.y = data.position[1];
         pos.z = data.position[2];
 
-        FindObjectOfType<MortimerController>().SetMorty(pos);
+        FindObjectOfType<HealthManager>().SetRespawn(pos);
     }
 
     public void SaveFile()
     {
         Debug.Log("Save");
-        SaveSystem.SavePlayer(FindObjectOfType<MortimerController>().GetMorty(), FindObjectOfType<HealthManager>().GetHealth(), FindObjectOfType<GameManager>().GetGems());
+        SaveSystem.SavePlayer(FindObjectOfType<HealthManager>().GetRespawn(), FindObjectOfType<HealthManager>().GetHealth(), FindObjectOfType<GameManager>().GetGems());
         
     }
 

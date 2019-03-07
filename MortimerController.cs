@@ -134,16 +134,6 @@ public class MortimerController : MonoBehaviour
         }
     }
 
-
-    public Vector3 GetMorty()
-    {
-        return mortyDirection;
-    }
-
-    public void SetMorty(Vector3 position)
-    {
-        mortyDirection = position;
-    }
     void Sprint()
     {
         if (Input.GetButtonDown("Sprint") && (backwards == false && walkRight == false && walkLeft == false))
