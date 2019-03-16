@@ -71,6 +71,8 @@ public class PauseMenu : MonoBehaviour
         pos.z = data.position[2];
 
         FindObjectOfType<HealthManager>().SetRespawn(pos);
+
+        Resume();
     }
 
     public void SaveFile()
