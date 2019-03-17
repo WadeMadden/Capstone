@@ -9,7 +9,6 @@ using System;
 
 public class HealthManager : MonoBehaviour
 {
-
     public int health;
     public int maximumHealth;
     public TextMeshProUGUI healthUI;
@@ -135,7 +134,7 @@ public class HealthManager : MonoBehaviour
 
     public void Respawn()
     {
-        
+
         healthUI.text = health.ToString();
         if (!isRespawning)
         {

@@ -11,7 +11,7 @@ public class PlayerData
 
     public PlayerData (Vector3 player, int mortHealth, int gemsTotal)
     {
-        health = mortHealth;
+        health = 3;
         gems = gemsTotal;
         position = new float[3];
         position[0] = player.x;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 
 
 public class PauseMenu : MonoBehaviour
@@ -59,9 +60,11 @@ public class PauseMenu : MonoBehaviour
 
     public void LoadFile()
     {
+        GameObject[] gems;
 
-        Debug.Log("Load File");
+       
         PlayerData data = SaveSystem.LoadPlayer();
+        Debug.Log(data.health);
         FindObjectOfType<GameManager>().SetGems(data.gems);
         FindObjectOfType<HealthManager>().SetHealth(data.health);
 
@@ -71,13 +74,14 @@ public class PauseMenu : MonoBehaviour
         pos.z = data.position[2];
 
         FindObjectOfType<HealthManager>().SetRespawn(pos);
+        gems = GameObject.FindGameObjectsWithTag("GemLight");
 
         Resume();
     }
 
     public void SaveFile()
     {
-        Debug.Log("Save");
+        Debug.Log(FindObjectOfType<HealthManager>().GetHealth());
         SaveSystem.SavePlayer(FindObjectOfType<HealthManager>().GetRespawn(), FindObjectOfType<HealthManager>().GetHealth(), FindObjectOfType<GameManager>().GetGems());
         
     }
