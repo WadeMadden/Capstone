@@ -39,7 +39,7 @@ public class MortimerController : MonoBehaviour
 
     public bool wasHurt;
 
-    private int attack = -1;
+    public int attack = -1;
     private bool ignoreJump;
     
 

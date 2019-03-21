@@ -6,12 +6,18 @@ using System;
 
 public class EnemyController : MonoBehaviour
 {
+    public ParticleSystem blood;
+
+    public int enemCurrHealth = 1;
+
     public float lookRadius = 10f;
     public float attackRadius = 5f;
 
     private bool walk;
     private bool attack;
     private float distance;
+
+    private bool isDead;
 
     public Animator animator;
 
@@ -21,6 +27,7 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        blood.Stop();
         target = PlayerManage.instance.player.transform;
         agent = GetComponent<NavMeshAgent>();
     }
@@ -28,29 +35,40 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        distance = Vector3.Distance(target.position, transform.position);
+        if (enemCurrHealth <= 0)
+        {
+            blood.Play();
+            float delay = 2.0f;
+            isDead = true;
+            Destroy(gameObject, delay);
 
-        if (distance <= lookRadius && distance > attackRadius)
+        }
+        else
         {
-            attack = false;
-            walk = true;
-            agent.SetDestination(target.position);
-            if(distance <= agent.stoppingDistance)
+            distance = Vector3.Distance(target.position, transform.position);
+
+            if (distance <= lookRadius && distance > attackRadius)
             {
-                //Attack
-                //Face target
-                FaceTarget();
+                attack = false;
+                walk = true;
+                agent.SetDestination(target.position);
+                if (distance <= agent.stoppingDistance)
+                {
+                    //Attack
+                    //Face target
+                    FaceTarget();
+                }
             }
-        }
-        if(distance <= attackRadius)
-        {
-            walk = false;
-            attack = true;
-        }
-        if(distance > lookRadius)
-        {
-            attack = false;
-            walk = false;
+            if (distance <= attackRadius)
+            {
+                walk = false;
+                attack = true;
+            }
+            if (distance > lookRadius)
+            {
+                attack = false;
+                walk = false;
+            }
         }
         Animations();
     }
@@ -69,6 +87,7 @@ public class EnemyController : MonoBehaviour
     }
     public void Animations()
     {
+        animator.SetBool("isDead", isDead);
         animator.SetBool("walk", walk);
         animator.SetBool("attack", attack);
         animator.SetFloat("distance", distance);
