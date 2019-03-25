@@ -4,13 +4,13 @@ using UnityEngine;
 
 public static class SaveSystem 
 {
-    public static void SavePlayer(Vector3 player, int mortHealth, int gameMan)
+    public static void SavePlayer(Vector3 player, int mortHealth)
     {
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/player.fun";
         FileStream stream = new FileStream(path, FileMode.Create);
 
-        PlayerData data = new PlayerData(player, mortHealth, gameMan);
+        PlayerData data = new PlayerData(player, mortHealth);
 
         formatter.Serialize(stream, data);
         stream.Close();

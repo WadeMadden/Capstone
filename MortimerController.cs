@@ -5,6 +5,7 @@ using System;
 
 public class MortimerController : MonoBehaviour
 {
+    public AudioManager audMan;
     //public Rigidbody mortyRigBod;
     public float mortySpeed;
     public float jumpSpeed;
@@ -14,7 +15,7 @@ public class MortimerController : MonoBehaviour
     public float gravity;
 
     //bool for checking if character can double jump
-    private bool dblJump;
+    public bool dblJump;
     public bool sprint;
     private bool backwards;
     private bool walkLeft;
@@ -24,7 +25,7 @@ public class MortimerController : MonoBehaviour
 
     private bool defend;
 
-    private bool roll;
+    public bool roll;
 
     public Animator animator;
 
@@ -181,6 +182,7 @@ public class MortimerController : MonoBehaviour
             mortyDirection.y = 0f;
             if (Input.GetButtonDown("Jump"))
             {
+                
                 mortyDirection.y = jumpSpeed;
                 dblJump = true;
                 animator.SetBool("dblJump", dblJump);
@@ -191,6 +193,7 @@ public class MortimerController : MonoBehaviour
         {
             if (Input.GetButtonDown("Jump"))
             {
+                audMan.Jumping();
                 mortyDirection.y = jumpSpeed;
                 dblJump = false;
                 animator.SetBool("dblJump", dblJump);

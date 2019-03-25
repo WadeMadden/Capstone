@@ -64,8 +64,7 @@ public class PauseMenu : MonoBehaviour
 
        
         PlayerData data = SaveSystem.LoadPlayer();
-        Debug.Log(data.health);
-        FindObjectOfType<GameManager>().SetGems(data.gems);
+        //Debug.Log(data.health);
         FindObjectOfType<HealthManager>().SetHealth(data.health);
 
         Vector3 pos;
@@ -73,8 +72,16 @@ public class PauseMenu : MonoBehaviour
         pos.y = data.position[1];
         pos.z = data.position[2];
 
+        FindObjectOfType<GameManager>().SetGems(0);
         FindObjectOfType<HealthManager>().SetRespawn(pos);
-        gems = GameObject.FindGameObjectsWithTag("GemLight");
+        //gems = GameObject.FindGameObjectsWithTag("disabledGem");
+        //Debug.Log(gems.Length);
+
+        //for (int i = 0; i < gems.Length; i++)
+        //{
+            
+        //    gems[i].tag = "enableGem";
+        //}
 
         Resume();
     }
@@ -82,7 +89,7 @@ public class PauseMenu : MonoBehaviour
     public void SaveFile()
     {
         Debug.Log(FindObjectOfType<HealthManager>().GetHealth());
-        SaveSystem.SavePlayer(FindObjectOfType<HealthManager>().GetRespawn(), FindObjectOfType<HealthManager>().GetHealth(), FindObjectOfType<GameManager>().GetGems());
+        SaveSystem.SavePlayer(FindObjectOfType<HealthManager>().GetRespawn(), FindObjectOfType<HealthManager>().GetHealth());
         
     }
 

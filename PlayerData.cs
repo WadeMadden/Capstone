@@ -9,10 +9,10 @@ public class PlayerData
     public int gems;
     public float[] position;
 
-    public PlayerData (Vector3 player, int mortHealth, int gemsTotal)
+    public PlayerData (Vector3 player, int mortHealth)
     {
         health = 3;
-        gems = gemsTotal;
+        gems = 0;
         position = new float[3];
         position[0] = player.x;
         position[1] = player.y;
