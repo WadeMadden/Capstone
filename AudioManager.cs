@@ -9,6 +9,8 @@ public class AudioManager : MonoBehaviour
     public AudioSource footSteps;
     public AudioSource jumping;
     public AudioSource gemSound;
+    public AudioSource lionHurt;
+    public AudioSource mortHurt;
 
     // Start is called before the first frame update
     void Start()
@@ -18,7 +20,8 @@ public class AudioManager : MonoBehaviour
         footSteps.Stop();
         jumping.Stop();
         gemSound.Stop();
-        
+        lionHurt.Stop();
+        mortHurt.Stop();
     }
 
     // Update is called once per frame
@@ -39,7 +42,7 @@ public class AudioManager : MonoBehaviour
         }
         if(morty.GetComponent<CharacterController>().isGrounded && morty.GetComponent<CharacterController>().velocity.magnitude > 2f && !footSteps.isPlaying)
         {
-            footSteps.volume = .6f;
+            footSteps.volume = 1f;
             if (morty.sprint)
             {
                 footSteps.pitch = 1.5f;
@@ -58,15 +61,26 @@ public class AudioManager : MonoBehaviour
     public void Jumping()
     {
         jumping.pitch = .6f;
-        jumping.volume = .2f;
+        jumping.volume = .4f;
         jumping.Play();
     }
 
+    public void LionHurt()
+    {
+        lionHurt.volume = .3f;
+        lionHurt.Play();
+    }
 
 
     public void GemSound()
     {
-        gemSound.volume = .5f;
+        gemSound.volume = .1f;
         gemSound.Play();
+    }
+
+    public void MortHurt()
+    {
+        mortHurt.volume = .5f;
+        mortHurt.Play();
     }
 }

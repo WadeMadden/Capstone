@@ -22,6 +22,7 @@ public class HurtMort : MonoBehaviour
         //check for character collider - may eventually add enemy tags - enemy runs into cactus
         if(other.tag == "Player")
         {
+            FindObjectOfType<AudioManager>().MortHurt();
             //knockback
             Vector3 hitDirection = other.transform.position - transform.position;
             hitDirection = hitDirection.normalized;
