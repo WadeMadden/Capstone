@@ -60,8 +60,8 @@ public class AudioManager : MonoBehaviour
 
     public void Jumping()
     {
-        jumping.pitch = .6f;
-        jumping.volume = .4f;
+        jumping.pitch = .7f;
+        jumping.volume = .1f;
         jumping.Play();
     }
 

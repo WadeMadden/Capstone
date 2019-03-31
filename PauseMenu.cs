@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEngine.SceneManagement;
 
 
 public class PauseMenu : MonoBehaviour
@@ -16,6 +17,7 @@ public class PauseMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Locked;
         if (paused)
         {
@@ -95,7 +97,10 @@ public class PauseMenu : MonoBehaviour
 
     public void QuitGame()
     {
+        FindObjectOfType<GameManager>().SetGems(0);
+        paused = false;
         Debug.Log("Quit");
-        Application.Quit();
+        SceneManager.LoadScene(0);
+        //Application.Quit();
     }
 }
