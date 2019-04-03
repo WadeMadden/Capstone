@@ -26,7 +26,7 @@ public class HealthManager : MonoBehaviour
     private float flashCounter;
     public float flashFrames = 0.1f;
 
-    private bool isRespawning;
+    public bool isRespawning;
     private Vector3 respawnPoint;
     private Quaternion respawnRotation;
     public float respawnTimer;

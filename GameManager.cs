@@ -7,6 +7,7 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    public int gemLevelComplete = 7; 
     public static int gemTotal = 0;
     public TextMeshProUGUI gemText;
     

@@ -1,16 +1,23 @@
 ﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public static class SaveSystem 
 {
-    public static void SavePlayer(Vector3 player, int mortHealth)
+    public static void SaveScene()
+    {
+        int activeScene = SceneManager.GetActiveScene().buildIndex;
+
+    }
+    public static void SavePlayer(Vector3 player, int mortHealth, int activeScene)
     {
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/player.fun";
         FileStream stream = new FileStream(path, FileMode.Create);
+        
 
-        PlayerData data = new PlayerData(player, mortHealth);
+        PlayerData data = new PlayerData(player, mortHealth, activeScene);
 
         formatter.Serialize(stream, data);
         stream.Close();

@@ -8,8 +8,9 @@ public class PlayerData
     public int health;
     public int gems;
     public float[] position;
+    public int actScene;
 
-    public PlayerData (Vector3 player, int mortHealth)
+    public PlayerData (Vector3 player, int mortHealth, int activeScene)
     {
         health = 3;
         gems = 0;
@@ -17,5 +18,6 @@ public class PlayerData
         position[0] = player.x;
         position[1] = player.y;
         position[2] = player.z;
+        actScene = activeScene;
     }
 }

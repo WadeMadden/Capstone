@@ -27,7 +27,10 @@ public class AudioManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(FindObjectOfType<HealthManager>().isRespawning == true)
+        {
+            footSteps.Stop();
+        }
         if (PauseMenu.paused)
         {
             mainBacking.volume = .05f;

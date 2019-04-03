@@ -74,24 +74,27 @@ public class PauseMenu : MonoBehaviour
         pos.y = data.position[1];
         pos.z = data.position[2];
 
-        FindObjectOfType<GameManager>().SetGems(0);
-        FindObjectOfType<HealthManager>().SetRespawn(pos);
+        //FindObjectOfType<GameManager>().SetGems(0);
+        //FindObjectOfType<HealthManager>().SetRespawn(pos);
         //gems = GameObject.FindGameObjectsWithTag("disabledGem");
         //Debug.Log(gems.Length);
 
         //for (int i = 0; i < gems.Length; i++)
         //{
-            
+
         //    gems[i].tag = "enableGem";
         //}
+        FindObjectOfType<GameManager>().SetGems(0);
+        SceneManager.LoadScene(data.actScene);
 
         Resume();
     }
 
     public void SaveFile()
     {
-        Debug.Log(FindObjectOfType<HealthManager>().GetHealth());
-        SaveSystem.SavePlayer(FindObjectOfType<HealthManager>().GetRespawn(), FindObjectOfType<HealthManager>().GetHealth());
+        int activeScene = SceneManager.GetActiveScene().buildIndex;
+        Debug.Log(SceneManager.GetActiveScene().buildIndex);
+        SaveSystem.SavePlayer(FindObjectOfType<HealthManager>().GetRespawn(), FindObjectOfType<HealthManager>().GetHealth(),activeScene);
         
     }
 
