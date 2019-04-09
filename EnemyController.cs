@@ -38,7 +38,7 @@ public class EnemyController : MonoBehaviour
         if (enemCurrHealth <= 0)
         {
             blood.Play();
-            float delay = 2.0f;
+            float delay = 1.65f;
             isDead = true;
             Destroy(gameObject, delay);
 

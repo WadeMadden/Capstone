@@ -7,6 +7,11 @@ public class HurtEnemy : MonoBehaviour
     public AudioManager audMan;
     public int damageGiven;
 
+    private void Start()
+    {
+        GetComponent<Collider>().enabled = false;
+    }
+
     void Update()
     {
         if (FindObjectOfType<MortimerController>().attack != -1)

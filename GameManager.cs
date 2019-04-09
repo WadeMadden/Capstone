@@ -7,9 +7,10 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    public int gemLevelComplete = 7; 
+    public int gemLevelComplete; 
     public static int gemTotal = 0;
     public TextMeshProUGUI gemText;
+    public TextMeshProUGUI findGemNumber;
     
 
     // Start is called before the first frame update
@@ -21,7 +22,8 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        gemLevelComplete = GameObject.FindGameObjectsWithTag("enableGem").Length;
+        findGemNumber.text = gemLevelComplete.ToString();
     }
 
     public int GetGems()
