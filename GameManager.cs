@@ -7,7 +7,9 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    public int gemLevelComplete; 
+    private int gemLevelComplete;
+    private int enemyTotal;
+    private int totalNumber;
     public static int gemTotal = 0;
     public TextMeshProUGUI gemText;
     public TextMeshProUGUI findGemNumber;
@@ -23,7 +25,9 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         gemLevelComplete = GameObject.FindGameObjectsWithTag("enableGem").Length;
-        findGemNumber.text = gemLevelComplete.ToString();
+        enemyTotal = GameObject.FindGameObjectsWithTag("Enemy").Length;
+        totalNumber = gemLevelComplete + enemyTotal;
+        findGemNumber.text = totalNumber.ToString();
     }
 
     public int GetGems()

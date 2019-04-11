@@ -6,8 +6,8 @@ using System;
 
 public class EnemyController : MonoBehaviour
 {
+    public GameObject gem;
     public ParticleSystem blood;
-
     public int enemCurrHealth = 1;
 
     public float lookRadius = 10f;
@@ -18,6 +18,7 @@ public class EnemyController : MonoBehaviour
     private float distance;
 
     private bool isDead;
+    private bool isCreated;
 
     public Animator animator;
 
@@ -40,6 +41,13 @@ public class EnemyController : MonoBehaviour
             blood.Play();
             float delay = 1.65f;
             isDead = true;
+            if (!isCreated)
+            {
+                Vector3 vec = new Vector3(transform.position.x, transform.position.y + 2, transform.position.z);
+                Instantiate(gem, vec, transform.rotation);
+                isCreated = true;
+            }
+            
             Destroy(gameObject, delay);
 
         }

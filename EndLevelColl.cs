@@ -29,7 +29,7 @@ public class EndLevelColl : MonoBehaviour
         //check for character collider - may eventually add enemy tags - enemy runs into cactus
         if (other.tag == "Player")
         {
-            if (GameObject.FindGameObjectsWithTag("enableGem").Length == 0)
+            if (GameObject.FindGameObjectsWithTag("enableGem").Length == 0 && GameObject.FindGameObjectsWithTag("Enemy").Length ==0)
             {
                 FindObjectOfType<GameManager>().SetGems(0);
                 SceneManager.LoadScene(0);
