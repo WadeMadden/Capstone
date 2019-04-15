@@ -2,11 +2,22 @@ The Myth of Mortimer
 
 This repo contains the following files
 
+AudioManager.cs - Contains functions to play each audio file
+
 CameraControl.cs	- Is responsible for controlling the game camera
 
 CheckPoint.cs	    - Provides checkpoint functionality
 
+DeathZone.cs         - Contains function that destory player object when triggered
+
 DestroyOverTime.cs	- Destroys particle effects after triggered
+
+DialogueColliderTrigger - Contains functions that make dialogue trigger button appear
+
+EndLevelColl.cs      - Contains functions that load the next level if player has collected enough gems. 
+                        Otherwise it tells player how many gems they need to collect
+                        
+EnemyController.cs - Contains functions that manage enemy health and enemy ai. controls animations and particle effects
 
 GameManager.cs	    - Keeps track of Gem count
 
@@ -14,10 +25,25 @@ GemBehaviour.cs	    - Animation for gems - Is also used for moving platforms
 
 GemPickup.cs	      - Is responsible for instantiating gem pickups
 
+HealMort.cs         -Contains functions that will increase player health when player interacts with item
+
 HealthManager.cs	    - Manages player health
 
+HurtEnemy.cs      - contains functions that will decrease enemy health
+
 HurtMort.cs	    - Used by all objects that are assigned to hurt the player
+
+MainMenu.cs     - Contains functions that manage the play and load buttons
 
 MortimerController.cs	- Contains all functionality for Mortimer. Sets up animations and conditionals
 
 PauseMenu.cs        - Controls pause menu
+
+PlayerData.cs     - Maintains information for saving
+
+PlayerManage.cs    -Singleton class that finds player in the scene
+
+SaveSystem.cs         - Responsible for saving and loading player information from a file
+
+TutorialNotification.cs  - Contains functions that display tuturial messages
+
