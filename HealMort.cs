@@ -5,6 +5,7 @@ using System;
 
 public class HealMort : MonoBehaviour
 {
+    public AudioManager audMan;
     public int healAmount = 1;
     // Start is called before the first frame update
     void Start()
@@ -22,6 +23,7 @@ public class HealMort : MonoBehaviour
         //check for character collider - may eventually add enemy tags - enemy runs into cactus
         if (other.tag == "Player")
         {
+            audMan.AppleCrunch();
             Console.WriteLine("Healing");
             FindObjectOfType<HealthManager>().HealPlayer(healAmount);
             Destroy(gameObject);

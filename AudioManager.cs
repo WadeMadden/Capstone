@@ -11,6 +11,7 @@ public class AudioManager : MonoBehaviour
     public AudioSource gemSound;
     public AudioSource lionHurt;
     public AudioSource mortHurt;
+    public AudioSource appleCrunch;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +23,7 @@ public class AudioManager : MonoBehaviour
         gemSound.Stop();
         lionHurt.Stop();
         mortHurt.Stop();
+        appleCrunch.Stop();
     }
 
     // Update is called once per frame
@@ -85,5 +87,11 @@ public class AudioManager : MonoBehaviour
     {
         mortHurt.volume = .5f;
         mortHurt.Play();
+    }
+
+    public void AppleCrunch()
+    {
+        appleCrunch.volume = .5f;
+        appleCrunch.Play();
     }
 }

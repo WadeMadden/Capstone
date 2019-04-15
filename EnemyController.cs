@@ -44,6 +44,7 @@ public class EnemyController : MonoBehaviour
             if (!isCreated)
             {
                 Vector3 vec = new Vector3(transform.position.x, transform.position.y + 2, transform.position.z);
+                
                 Instantiate(gem, vec, transform.rotation);
                 isCreated = true;
             }
